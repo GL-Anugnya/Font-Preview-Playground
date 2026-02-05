@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Preview Playground</title>
+    <!-- Google Fonts - 12 beautiful, versatile fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;600&family=DM+Sans:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;600&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Pacifico&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600&family=Quicksand:wght@400;600&family=Raleway:wght@400;600&family=Roboto:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            /* Pastel cream-to-peach gradient background */
+            background: linear-gradient(160deg, #FFF9F5 0%, #FFF0EB 30%, #FFE8E4 60%, #FFE0DC 100%);
+            min-height: 100vh;
+            color: #7D5A5A;
+            padding: 2rem;
+        }
+
+        /* ===== MAIN CONTAINER - CENTERED LAYOUT ===== */
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.85rem;
+            font-weight: 600;
+            color: #8B6B6B;
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== TEXT INPUT SECTION ===== */
+        .input-section {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #A67B7B;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 1rem;
+            font-size: 1rem;
+            border: 2px solid #E8D5D0;
+            border-radius: 12px;
+            background: #FFFCFA;
+            color: #6B4F4F;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #E8B4B8;
+            box-shadow: 0 0 0 3px rgba(232, 180, 184, 0.25);
+        }
+
+        textarea::placeholder {
+            color: #C9A9A9;
+        }
+
+        /* ===== FONT STYLE BUTTONS ===== */
+        .font-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .font-btn {
+            padding: 0.55rem 1rem;
+            font-size: 0.85rem;
+            border: 2px solid #F5D0C5;
+            border-radius: 10px;
+            background: #FFF5F0;
+            color: #8B6B6B;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .font-btn:hover {
+            background: #FFE4D6;
+            border-color: #FADBD8;
+            transform: translateY(-1px);
+        }
+
+        /* Active state when a font is selected */
+        .font-btn.active {
+            background: #E8B4B8;
+            border-color: #E8B4B8;
+            color: #FFFCFA;
+        }
+
+        /* ===== FONT SIZE SLIDER SECTION ===== */
+        .font-size-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .font-size-label {
+            min-width: 80px;
+            font-size: 0.9rem;
+            color: #A67B7B;
+        }
+
+        .font-size-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #F5D0C5;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        /* Webkit browsers (Chrome, Safari, Edge) */
+        .font-size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #E8B4B8;
+            border: 2px solid #FFFCFA;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .font-size-slider::-webkit-slider-thumb:hover {
+            background: #D9A0A5;
+            transform: scale(1.1);
+        }
+
+        /* Firefox */
+        .font-size-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #E8B4B8;
+            border: 2px solid #FFFCFA;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .font-size-slider::-moz-range-thumb:hover {
+            background: #D9A0A5;
+            transform: scale(1.1);
+        }
+
+        .font-size-value {
+            min-width: 50px;
+            font-size: 0.9rem;
+            color: #8B6B6B;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* ===== TEXT STYLE TOGGLE BUTTONS ===== */
+        .text-style-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .text-style-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .style-btn {
+            padding: 0.55rem 1.2rem;
+            font-size: 0.9rem;
+            border: 2px solid #F5D0C5;
+            border-radius: 10px;
+            background: #FFF5F0;
+            color: #8B6B6B;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .style-btn:hover {
+            background: #FFE4D6;
+            border-color: #FADBD8;
+            transform: translateY(-1px);
+        }
+
+        /* Active state when a style is toggled on */
+        .style-btn.active {
+            background: #E8B4B8;
+            border-color: #E8B4B8;
+            color: #FFFCFA;
+        }
+
+        /* ===== PREVIEW AREA ===== */
+        .preview-section {
+            margin-top: 1.5rem;
+        }
+
+        .preview-box {
+            min-height: 140px;
+            padding: 1.5rem;
+            background: #FFFBF8;
+            border: 2px solid #F5D0C5;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #6B4F4F;
+            /* Default font - will be changed by JavaScript */
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* Placeholder when preview is empty */
+        .preview-box:empty::before {
+            content: "Your text will appear here...";
+            color: #C9A9A9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Font Preview Playground</h1>
+
+        <!-- Text input area - user types here -->
+        <div class="input-section">
+            <label for="text-input">Type your text:</label>
+            <textarea id="text-input" placeholder="Enter text to preview..."></textarea>
+        </div>
+
+        <!-- Font style buttons - 12 beautiful fonts -->
+        <div class="font-buttons">
+            <button class="font-btn active" data-font="dm-sans">DM Sans</button>
+            <button class="font-btn" data-font="playfair">Playfair Display</button>
+            <button class="font-btn" data-font="lora">Lora</button>
+            <button class="font-btn" data-font="merriweather">Merriweather</button>
+            <button class="font-btn" data-font="cormorant">Cormorant Garamond</button>
+            <button class="font-btn" data-font="poppins">Poppins</button>
+            <button class="font-btn" data-font="montserrat">Montserrat</button>
+            <button class="font-btn" data-font="raleway">Raleway</button>
+            <button class="font-btn" data-font="open-sans">Open Sans</button>
+            <button class="font-btn" data-font="roboto">Roboto</button>
+            <button class="font-btn" data-font="quicksand">Quicksand</button>
+            <button class="font-btn" data-font="jetbrains">JetBrains Mono</button>
+            <button class="font-btn" data-font="pacifico">Pacifico</button>
+            <button class="font-btn" data-font="dancing-script">Dancing Script</button>
+        </div>
+
+        <!-- Font size slider - adjust preview text size -->
+        <div class="font-size-section">
+            <label>Font Size:</label>
+            <div class="font-size-control">
+                <span class="font-size-label">Size:</span>
+                <input type="range" id="font-size-slider" class="font-size-slider" min="12" max="72" value="20" step="1">
+                <span id="font-size-value" class="font-size-value">20px</span>
+            </div>
+        </div>
+
+        <!-- Text style toggle buttons - Bold, Italic, Underline -->
+        <div class="text-style-section">
+            <label>Text Style:</label>
+            <div class="text-style-buttons">
+                <button id="bold-btn" class="style-btn" data-style="bold">
+                    <strong>B</strong> Bold
+                </button>
+                <button id="italic-btn" class="style-btn" data-style="italic">
+                    <em>I</em> Italic
+                </button>
+                <button id="underline-btn" class="style-btn" data-style="underline">
+                    <u>U</u> Underline
+                </button>
+            </div>
+        </div>
+
+        <!-- Live preview area - updates as user types or changes font -->
+        <div class="preview-section">
+            <label>Preview:</label>
+            <div id="preview" class="preview-box"></div>
+        </div>
+    </div>
+
+    <script>
+        /* ===== FONT PREVIEW PLAYGROUND - JAVASCRIPT ===== */
+
+        // Get references to the DOM elements we need
+        const textInput = document.getElementById('text-input');
+        const preview = document.getElementById('preview');
+        const fontButtons = document.querySelectorAll('.font-btn');
+        const fontSizeSlider = document.getElementById('font-size-slider');
+        const fontSizeValue = document.getElementById('font-size-value');
+        const boldBtn = document.getElementById('bold-btn');
+        const italicBtn = document.getElementById('italic-btn');
+        const underlineBtn = document.getElementById('underline-btn');
+
+        // Map button data-font values to Google Font family names
+        const fontFamilies = {
+            'dm-sans': "'DM Sans', sans-serif",
+            'playfair': "'Playfair Display', serif",
+            'lora': "'Lora', serif",
+            'merriweather': "'Merriweather', serif",
+            'cormorant': "'Cormorant Garamond', serif",
+            'poppins': "'Poppins', sans-serif",
+            'montserrat': "'Montserrat', sans-serif",
+            'raleway': "'Raleway', sans-serif",
+            'open-sans': "'Open Sans', sans-serif",
+            'roboto': "'Roboto', sans-serif",
+            'quicksand': "'Quicksand', sans-serif",
+            'jetbrains': "'JetBrains Mono', monospace",
+            'pacifico': "'Pacifico', cursive",
+            'dancing-script': "'Dancing Script', cursive"
+        };
+
+        // Update the preview area with current text and font
+        function updatePreview() {
+            preview.textContent = textInput.value;
+        }
+
+        // Change the font style of the preview
+        function setFont(fontKey) {
+            preview.style.fontFamily = fontFamilies[fontKey];
+
+            // Update active button state - remove 'active' from all, add to clicked one
+            fontButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.font === fontKey) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Update font size of the preview text
+        function updateFontSize() {
+            const size = fontSizeSlider.value;
+            preview.style.fontSize = size + 'px';
+            fontSizeValue.textContent = size + 'px';
+        }
+
+        // Toggle text styles (Bold, Italic, Underline) independently
+        function toggleStyle(styleType, button) {
+            // Toggle the active class on the button
+            button.classList.toggle('active');
+            const isActive = button.classList.contains('active');
+
+            // Apply or remove the style based on toggle state
+            switch(styleType) {
+                case 'bold':
+                    preview.style.fontWeight = isActive ? 'bold' : 'normal';
+                    break;
+                case 'italic':
+                    preview.style.fontStyle = isActive ? 'italic' : 'normal';
+                    break;
+                case 'underline':
+                    preview.style.textDecoration = isActive ? 'underline' : 'none';
+                    break;
+            }
+        }
+
+        // Listen for input events - updates preview as user types
+        textInput.addEventListener('input', updatePreview);
+
+        // Listen for keyup too (handles paste and other input methods)
+        textInput.addEventListener('keyup', updatePreview);
+
+        // Add click listeners to each font button
+        fontButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                setFont(button.dataset.font);
+            });
+        });
+
+        // Listen for slider changes - updates font size live as user drags
+        fontSizeSlider.addEventListener('input', updateFontSize);
+
+        // Add click listeners to style toggle buttons
+        boldBtn.addEventListener('click', () => {
+            toggleStyle('bold', boldBtn);
+        });
+
+        italicBtn.addEventListener('click', () => {
+            toggleStyle('italic', italicBtn);
+        });
+
+        underlineBtn.addEventListener('click', () => {
+            toggleStyle('underline', underlineBtn);
+        });
+
+        // Initialize: set default font and font size
+        setFont('dm-sans');
+        updateFontSize();
+    </script>
+</body>
+</html>
